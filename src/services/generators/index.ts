@@ -48,7 +48,7 @@ export const piGenerator = async (
     }
 
     isGeneratorBusy = false
-    return latestPiValue
+    return { pi: latestPiValue, decimals }
   } catch (error) {
     console.error(`[piGenerator] Failed to generate pi`, error)
     throw new Error(error)
