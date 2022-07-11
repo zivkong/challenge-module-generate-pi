@@ -1,9 +1,16 @@
-export const piGenerator = (existingPiDecimals: number, decimalIncrement: number) => {
+export const piGenerator = async (
+  PiIteration: any,
+  existingPiDecimals: number,
+  decimalIncrement: number,
+  isGeneratorBusy: boolean,
+) => {
   try {
+    isGeneratorBusy = true
+
     const increaseDecimalCount = existingPiDecimals + decimalIncrement
     let decimals = existingPiDecimals
 
-    let value = ''
+    let latestPiValue = ''
 
     while (decimals < increaseDecimalCount) {
       console.log(`[generatePi] Adding decimals ${decimals + 1} / ${increaseDecimalCount}`)
@@ -22,11 +29,26 @@ export const piGenerator = (existingPiDecimals: number, decimalIncrement: number
 
       const piBigInt = pi / BigInt(10) ** BigInt(20)
 
-      value = BigInt(piBigInt).toString()
+      latestPiValue = BigInt(piBigInt).toString()
+
+      const timestamp = new Date()
+
+      const newPiIteration = {
+        decimals: decimals + 1,
+        value: latestPiValue,
+        createdAt: timestamp,
+        createdBy: 'module-generate-pi',
+        updatedAt: timestamp,
+        updatedBy: 'module-generate-pi',
+      }
+
+      await PiIteration.create(newPiIteration)
+
       decimals++
     }
 
-    return { decimals, value }
+    isGeneratorBusy = false
+    return latestPiValue
   } catch (error) {
     console.error(`[piGenerator] Failed to generate pi`, error)
     throw new Error(error)
