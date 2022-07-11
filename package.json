@@ -1,10 +1,10 @@
 {
   "name": "challenge-module-generate-pi",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pi Generator Module",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.json",
-    "start": "node dist",
+    "build": "rimraf -rf ./dist && tsc -p tsconfig.json",
+    "start": "npm run build && node dist",
     "start:dev": "nodemon --watch src --exec ts-node src/index.ts",
     "test": "jest --passWithNoTests"
   },
@@ -27,6 +27,7 @@
     "@types/jest": "^28.1.4",
     "@types/node": "^18.0.3",
     "jest": "^28.1.2",
+    "rimraf": "^3.0.2",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"

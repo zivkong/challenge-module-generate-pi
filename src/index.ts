@@ -22,7 +22,7 @@ const start = async () => {
     const address = fastify.server.address()
     const port = typeof address === 'string' ? address : address?.port
 
-    console.log(`Generate Pi Module is serving at http://localhost:${port}`)
+    console.log(`Pi Generator Module is serving at http://localhost:${port}`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
