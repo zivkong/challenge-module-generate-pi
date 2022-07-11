@@ -26,11 +26,17 @@ export const generatePi = async (request, reply) => {
 
     // Return latest generated Pi if the generator is busy or going to be busy
     const isLongProcess = !!(isGeneratorBusy || decimalIncrement + existingPiDecimals > 200)
-    if (isLongProcess) reply.send({ latestPiValue: hasExistingPi ? existingPi.value : null })
+    if (isLongProcess) {
+      const response = {
+        pi: hasExistingPi ? existingPi.value : null,
+        decimals: hasExistingPi ? existingPi.decimals : null,
+      }
+      reply.send(response)
+    }
 
-    const latestPiValue = await piGenerator(PiIteration, existingPiDecimals, decimalIncrement, isGeneratorBusy)
+    const { pi, decimals } = await piGenerator(PiIteration, existingPiDecimals, decimalIncrement, isGeneratorBusy)
 
-    return { latestPiValue }
+    return { pi, decimals }
   } catch (error) {
     console.error(`[generatePi] Failed to generate pi`, error)
     throw new Error(error)
